@@ -13,7 +13,7 @@ export const site = {
   intro:
     "I'm a developer who cares about the seams — where systems meet, where users get confused, where things quietly break. I like making the complicated feel obvious.",
   location: 'Montréal, QC',
-  email: 'rosalie.perron@tlmgo.com',
+  email: 'rosalie.perron@example.com',
   // Used for the copyright line + page titles.
   domain: 'example.com',
 };
