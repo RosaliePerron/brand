@@ -6,8 +6,8 @@
    ─────────────────────────────────────────────────────────────────────── */
 
 @import '@fontsource-variable/inter';
-@import '@fontsource/ibm-plex-mono/400.css';
-@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/dm-mono/400.css';
+@import '@fontsource/dm-mono/500.css';
 
 :root {
   /* Light (default) */
@@ -17,16 +17,16 @@
   --ink-soft: #56504a;     /* muted text */
   --ink-faint: #8a8278;    /* captions, meta */
   --line: #d8d2c6;         /* hairlines */
-  --accent: #e2562b;       /* molten orange */
-  --accent-ink: #b53c16;   /* accent for text on paper (AA contrast) */
-  --selection: #f7c9b8;
+  --accent: #e36588;       /* warm pink */
+  --accent-ink: #b83d61;   /* accent for text on paper (AA contrast) */
+  --selection: #f6cdd9;
 
   --maxw: 64rem;
   --gutter: clamp(1.25rem, 5vw, 4rem);
   --radius: 2px;           /* almost-square; deliberate, architectural */
 
   --font-sans: 'Inter Variable', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
 
   --step--1: clamp(0.83rem, 0.78rem + 0.2vw, 0.94rem);
   --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
@@ -44,9 +44,9 @@
     --ink-soft: #b3aa9c;
     --ink-faint: #7e766a;
     --line: #2e2a24;
-    --accent: #ff6a3d;
-    --accent-ink: #ff7d54;
-    --selection: #5a2a17;
+    --accent: #f07a9c;
+    --accent-ink: #f48fac;
+    --selection: #5a2435;
   }
 }
 
