@@ -1,7 +1,11 @@
 ---
 import { site } from '../data/site';
+import { url } from '../lib/url';
 
-const path = Astro.url.pathname;
+// Strip the configured base + trailing slash so comparisons use logical paths
+// ("/", "/projects") regardless of whether we're at "/" (dev) or "/brand/" (Pages).
+const base = (import.meta as any).env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.slice(base.length).replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
 
@@ -14,7 +18,7 @@ const items = [
 
 <header class="nav">
   <div class="wrap nav__inner">
-    <a href="/" class="nav__brand" aria-label="Home">
+    <a href={url('/')} class="nav__brand" aria-label="Home">
       <span class="nav__mark">♥</span>
       <span class="nav__name">{site.name}</span>
     </a>
@@ -25,7 +29,7 @@ const items = [
           items.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 class:list={['nav__link', { 'is-active': isActive(item.href) }]}
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >

@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site, projects, links } from '../data/site';
+import { url } from '../lib/url';
 
 const featured = projects.slice(0, 3);
-const gh = links.find((l) => l.label === 'GitHub');
 ---
 
 <Base>
@@ -19,8 +19,8 @@ const gh = links.find((l) => l.label === 'GitHub');
     <p class="hero__tagline reveal">{site.tagline}</p>
 
     <div class="hero__cta reveal">
-      <a href="/projects" class="btn btn--accent">See the work →</a>
-      <a href="/contact" class="btn">Get in touch</a>
+      <a href={url('/projects')} class="btn btn--accent">See the work →</a>
+      <a href={url('/contact')} class="btn">Get in touch</a>
     </div>
   </section>
 
@@ -56,7 +56,7 @@ const gh = links.find((l) => l.label === 'GitHub');
   <section class="featured wrap">
     <div class="featured__head reveal">
       <p class="eyebrow">Selected work</p>
-      <a href="/projects" class="ulink featured__all">All projects →</a>
+      <a href={url('/projects')} class="ulink featured__all">All projects →</a>
     </div>
 
     <ol class="featured__list">

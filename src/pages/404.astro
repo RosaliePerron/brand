@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
 ---
 
 <Base title="Not found" description="That page doesn't exist.">
@@ -9,7 +10,7 @@ import Base from '../layouts/Base.astro';
     <p class="nf__sub reveal">
       The link is broken or the page never existed. No harm done.
     </p>
-    <a href="/" class="btn btn--accent reveal">← Back home</a>
+    <a href={url('/')} class="btn btn--accent reveal">← Back home</a>
   </section>
 </Base>
 
