@@ -1,0 +1,87 @@
+---
+import { site, links } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <div class="foot__col">
+      <p class="foot__name">{site.name}</p>
+      <p class="foot__meta">{site.location}</p>
+    </div>
+
+    <nav aria-label="Social and contact" class="foot__col">
+      <ul class="foot__links">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="ulink"
+                rel={l.href.startsWith('http') ? 'me noopener' : undefined}
+                target={l.href.startsWith('http') ? '_blank' : undefined}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <p class="foot__copy">
+      © {year} · built by hand
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--line);
+    margin-top: clamp(4rem, 12vh, 9rem);
+    padding-block: 2.5rem;
+  }
+
+  .foot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .foot__name {
+    font-weight: 600;
+  }
+
+  .foot__meta,
+  .foot__copy {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
+
+  .foot__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .foot__copy {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .foot__copy {
+      width: auto;
+      margin-top: 0;
+      align-self: flex-end;
+    }
+  }
+</style>

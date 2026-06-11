@@ -1,0 +1,277 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, projects, links } from '../data/site';
+
+const featured = projects.slice(0, 3);
+const gh = links.find((l) => l.label === 'GitHub');
+---
+
+<Base>
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="hero wrap">
+    <p class="eyebrow reveal">{site.role} · {site.location}</p>
+
+    <h1 class="hero__title reveal">
+      {site.name.split(' ')[0]}<span class="hero__dot">.</span><br />
+      <span class="hero__last">{site.name.split(' ').slice(1).join(' ')}</span>
+    </h1>
+
+    <p class="hero__tagline reveal">{site.tagline}</p>
+
+    <div class="hero__cta reveal">
+      <a href="/projects" class="btn btn--accent">See the work →</a>
+      <a href="/contact" class="btn">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- ── Intro / about strip ──────────────────────────────────────────── -->
+  <section class="intro wrap">
+    <div class="intro__grid">
+      <p class="eyebrow reveal">About</p>
+      <div class="intro__body reveal">
+        <p class="intro__lead">{site.intro}</p>
+        <p class="intro__links">
+          Find me on
+          {
+            links
+              .filter((l) => !l.href.startsWith('mailto'))
+              .map((l, i, arr) => (
+                <>
+                  <a
+                    href={l.href}
+                    class="ulink"
+                    target="_blank"
+                    rel="me noopener"
+                    >{l.label}</a
+                  >{i < arr.length - 1 ? ', ' : '.'}
+                </>
+              ))
+          }
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Featured work ────────────────────────────────────────────────── -->
+  <section class="featured wrap">
+    <div class="featured__head reveal">
+      <p class="eyebrow">Selected work</p>
+      <a href="/projects" class="ulink featured__all">All projects →</a>
+    </div>
+
+    <ol class="featured__list">
+      {
+        featured.map((p, i) => (
+          <li class="fitem reveal">
+            <span class="fitem__num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="fitem__main">
+              <div class="fitem__top">
+                <h2 class="fitem__title">{p.title}</h2>
+                {p.meta && <span class="fitem__meta">{p.meta}</span>}
+              </div>
+              <p class="fitem__desc">{p.description}</p>
+              <ul class="fitem__tags">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="fitem__links">
+              {p.repo && (
+                <a href={p.repo} class="ulink" target="_blank" rel="noopener">
+                  Code
+                </a>
+              )}
+              {p.demo && (
+                <a href={p.demo} class="ulink" target="_blank" rel="noopener">
+                  Live
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Base>
+
+<style>
+  /* ── Hero ──────────────────────────────────────────────────────────── */
+  .hero {
+    padding-top: clamp(3.5rem, 12vh, 8rem);
+    padding-bottom: clamp(2.5rem, 8vh, 5rem);
+  }
+
+  .hero__title {
+    font-size: var(--step-4);
+    margin-top: 1.2rem;
+    letter-spacing: -0.04em;
+  }
+
+  .hero__dot {
+    color: var(--accent);
+  }
+
+  .hero__last {
+    color: var(--ink-soft);
+  }
+
+  .hero__tagline {
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    max-width: 32ch;
+    margin-top: 1.4rem;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.2rem;
+  }
+
+  /* stagger the hero reveals slightly for a hand-built feel */
+  .hero .reveal:nth-child(1) {
+    transition-delay: 0s;
+  }
+  .hero .reveal:nth-child(2) {
+    transition-delay: 0.06s;
+  }
+  .hero .reveal:nth-child(3) {
+    transition-delay: 0.12s;
+  }
+  .hero .reveal:nth-child(4) {
+    transition-delay: 0.18s;
+  }
+
+  /* ── Intro ─────────────────────────────────────────────────────────── */
+  .intro {
+    padding-block: clamp(2rem, 6vh, 4rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .intro__grid {
+    display: grid;
+    gap: 1rem 3rem;
+  }
+
+  @media (min-width: 44rem) {
+    .intro__grid {
+      grid-template-columns: 12rem 1fr;
+    }
+  }
+
+  .intro__lead {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    max-width: 46ch;
+  }
+
+  .intro__links {
+    margin-top: 1.4rem;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+    font-family: var(--font-mono);
+  }
+
+  /* ── Featured ──────────────────────────────────────────────────────── */
+  .featured {
+    padding-top: clamp(2rem, 6vh, 4rem);
+  }
+
+  .featured__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .featured__all {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .featured__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fitem {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--line);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease,
+      background 0.25s ease;
+  }
+
+  .fitem:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fitem:hover {
+    background: var(--paper-2);
+  }
+
+  .fitem__num {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--accent-ink);
+    padding-top: 0.35rem;
+  }
+
+  .fitem__top {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+  }
+
+  .fitem__title {
+    font-size: var(--step-2);
+  }
+
+  .fitem__meta {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
+
+  .fitem__desc {
+    color: var(--ink-soft);
+    margin-top: 0.5rem;
+    max-width: 54ch;
+  }
+
+  .fitem__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  .fitem__tags li {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.15em 0.6em;
+  }
+
+  .fitem__links {
+    grid-column: 2;
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+</style>

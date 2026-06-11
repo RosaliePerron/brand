@@ -1,0 +1,283 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, links } from '../data/site';
+
+// ── Contact form delivery ───────────────────────────────────────────────
+// This form posts to Formspree (https://formspree.io) — works on any static
+// host with no backend. To activate:
+//   1. Create a free form at formspree.io and copy its ID (e.g. "xayzwkdq").
+//   2. Replace the value below with your ID.
+// Until you do, the form is rendered in "demo" mode and won't submit.
+const FORMSPREE_ID = 'your-form-id';
+const formAction = `https://formspree.io/f/${FORMSPREE_ID}`;
+const formReady = FORMSPREE_ID !== 'your-form-id';
+---
+
+<Base title="Contact" description={`Get in touch with ${site.name}.`}>
+  <section class="head wrap">
+    <p class="eyebrow reveal">Contact</p>
+    <h1 class="head__title reveal">Let's talk.</h1>
+    <p class="head__sub reveal">
+      Got a project, a question, or just want to say hello? Drop a line — I
+      read everything.
+    </p>
+  </section>
+
+  <section class="body wrap">
+    <!-- ── The form ──────────────────────────────────────────────────── -->
+    <form
+      class="form reveal"
+      action={formReady ? formAction : undefined}
+      method="POST"
+      data-ready={formReady ? 'true' : 'false'}
+    >
+      {
+        !formReady && (
+          <p class="form__notice">
+            ⚠ This form is in demo mode. Add your Formspree ID in
+            <code>src/pages/contact.astro</code> to enable submissions.
+          </p>
+        )
+      }
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+
+      <!-- honeypot: bots fill this, humans never see it -->
+      <input
+        type="text"
+        name="_gotcha"
+        tabindex="-1"
+        autocomplete="off"
+        class="visually-hidden"
+        aria-hidden="true"
+      />
+
+      <button type="submit" class="btn btn--accent form__submit">
+        Send message →
+      </button>
+
+      <p class="form__status" role="status" aria-live="polite" hidden></p>
+    </form>
+
+    <!-- ── Direct alternatives ───────────────────────────────────────── -->
+    <aside class="aside reveal">
+      <p class="eyebrow">Or reach me directly</p>
+      <ul class="aside__list">
+        <li>
+          <span class="aside__label">Email</span>
+          <a href={`mailto:${site.email}`} class="ulink">{site.email}</a>
+        </li>
+        {
+          links
+            .filter((l) => !l.href.startsWith('mailto'))
+            .map((l) => (
+              <li>
+                <span class="aside__label">{l.label}</span>
+                <a href={l.href} class="ulink" target="_blank" rel="me noopener">
+                  {l.href.replace(/^https?:\/\//, '')}
+                </a>
+              </li>
+            ))
+        }
+        <li>
+          <span class="aside__label">Location</span>
+          <span>{site.location}</span>
+        </li>
+      </ul>
+    </aside>
+  </section>
+</Base>
+
+<script>
+  // Submit via fetch so visitors stay on the page; fall back to native POST.
+  const form = document.querySelector<HTMLFormElement>('.form');
+  const status = document.querySelector<HTMLElement>('.form__status');
+
+  if (form && status && form.dataset.ready === 'true') {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submit = form.querySelector<HTMLButtonElement>('.form__submit');
+      const setStatus = (msg: string, ok: boolean) => {
+        status.hidden = false;
+        status.textContent = msg;
+        status.dataset.ok = String(ok);
+      };
+
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+      }
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          form.reset();
+          setStatus('Thanks — your message is on its way. ✦', true);
+        } else {
+          setStatus('Something went wrong. Try again or email me directly.', false);
+        }
+      } catch {
+        setStatus('Network hiccup. Try again or email me directly.', false);
+      } finally {
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = 'Send message →';
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .head {
+    padding-top: clamp(3rem, 10vh, 6rem);
+    padding-bottom: clamp(1.5rem, 5vh, 3rem);
+  }
+
+  .head__title {
+    font-size: var(--step-3);
+    margin-top: 1rem;
+  }
+
+  .head__sub {
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+    max-width: 40ch;
+    margin-top: 1rem;
+  }
+
+  .body {
+    display: grid;
+    gap: clamp(2rem, 6vw, 4rem);
+    align-items: start;
+  }
+
+  @media (min-width: 48rem) {
+    .body {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+
+  /* ── Form ──────────────────────────────────────────────────────────── */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+
+  .form__notice {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--accent-ink);
+    border: 1px dashed var(--accent);
+    border-radius: var(--radius);
+    padding: 0.8rem 1rem;
+    line-height: 1.5;
+  }
+
+  .form__notice code {
+    color: var(--ink);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .field input,
+  .field textarea {
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.85rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .form__submit {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+  }
+
+  .form__status {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    margin: 0;
+  }
+
+  .form__status[data-ok='true'] {
+    color: var(--accent-ink);
+  }
+
+  .form__status[data-ok='false'] {
+    color: #c0392b;
+  }
+
+  /* ── Aside ─────────────────────────────────────────────────────────── */
+  .aside__list {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .aside__list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .aside__label {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+</style>

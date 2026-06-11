@@ -1,0 +1,121 @@
+---
+import { site } from '../data/site';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a href="/" class="nav__brand" aria-label="Home">
+      <span class="nav__mark">✦</span>
+      <span class="nav__name">{site.name}</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="nav__list">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['nav__link', { 'is-active': isActive(item.href) }]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.01em;
+  }
+
+  .nav__mark {
+    color: var(--accent);
+    transition: transform 0.4s ease;
+  }
+
+  .nav__brand:hover .nav__mark {
+    transform: rotate(90deg);
+  }
+
+  .nav__name {
+    font-weight: 500;
+  }
+
+  .nav__list {
+    display: flex;
+    gap: clamp(1rem, 4vw, 2.2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__link {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    position: relative;
+    padding-block: 0.25rem;
+    transition: color 0.18s ease;
+  }
+
+  .nav__link:hover {
+    color: var(--ink);
+  }
+
+  .nav__link.is-active {
+    color: var(--ink);
+  }
+
+  .nav__link.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  @media (max-width: 30rem) {
+    .nav__name {
+      display: none;
+    }
+  }
+</style>

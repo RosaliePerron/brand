@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page doesn't exist.">
+  <section class="nf wrap">
+    <p class="eyebrow reveal">Error 404</p>
+    <h1 class="nf__title reveal">This page wandered off.</h1>
+    <p class="nf__sub reveal">
+      The link is broken or the page never existed. No harm done.
+    </p>
+    <a href="/" class="btn btn--accent reveal">← Back home</a>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-top: clamp(5rem, 18vh, 12rem);
+    padding-bottom: clamp(5rem, 14vh, 9rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .nf__title {
+    font-size: var(--step-3);
+  }
+  .nf__sub {
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+    max-width: 36ch;
+  }
+  .nf .btn {
+    margin-top: 1rem;
+  }
+</style>
