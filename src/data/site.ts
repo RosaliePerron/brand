@@ -8,23 +8,22 @@ export const site = {
   // Shown big on the landing page. Keep it short and declarative.
   role: 'Software Developer',
   // The one-liner under your name. Your "elevator pitch".
-  tagline: 'I build careful, fast software and the occasional sharp edge.',
+  tagline: 'I build careful, fast and efficient software.',
   // A short paragraph for the landing + a longer one is fine too.
   intro:
-    "I'm a developer who cares about the seams — where systems meet, where users get confused, where things quietly break. I like making the complicated feel obvious.",
-  location: 'Montréal, QC',
-  email: 'rosalie.perron@example.com',
+    "I develop with the end user in mind, because the best code is the one that just works.",
+  location: 'Québec, QC',
+  email: 'pro@rosalieperron.com',
   // Used for the copyright line + page titles.
-  domain: 'example.com',
+  domain: 'rosalieperron.com',
 };
 
 // Social / external links. Remove any you don't want; the footer + contact
 // page render whatever is here. `label` is what shows; `href` is the link.
 export const links = [
-  { label: 'GitHub', href: 'https://github.com/yourname' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/yourname' },
-  { label: 'Mastodon', href: 'https://mas.to/@yourname' },
-  { label: 'Email', href: 'mailto:rosalie.perron@tlmgo.com' },
+  { label: 'GitHub', href: 'https://github.com/rosalieperron' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/rosalie-perron-456754143' },
+  { label: 'Email', href: 'mailto:pro@rosalieperron.com' },
 ];
 
 export type Project = {
