@@ -28,6 +28,9 @@ export const links = [
 
 export type Project = {
   title: string;
+  // Employer / company the project was realised under. Projects are grouped
+  // by this on the projects page. Use the same string to group them together.
+  employer: string;
   // Your role on the project. e.g. "Lead developer", "Contributor".
   role?: string;
   // Short, punchy. One or two sentences.
@@ -44,6 +47,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: 'Bid solicitation',
+    employer: 'TLM',
     role: 'Lead full-stack',
     description:
       'Biggest private bid solicitation software in Québec.',
@@ -54,6 +58,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Telephone systems',
+    employer: 'TLM',
     role: 'Full-stack',
     description:
       'Admin dashboards for IP telephony systems.',
@@ -64,6 +69,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Farm management',
+    employer: 'TLM',
     role: 'Lead backend',
     description:
       'Farm management systems with integrated B2B marketplace.',
@@ -74,6 +80,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Events networking',
+    employer: 'TLM',
     role: 'Backend',
     description:
       'Events networking platform to connect professionnal and create learning opportunities.',

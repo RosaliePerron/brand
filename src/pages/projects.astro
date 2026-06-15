@@ -1,6 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import { projects } from '../data/site';
+
+// Group projects by employer, preserving first-seen order.
+const groups: { employer: string; items: typeof projects }[] = [];
+for (const p of projects) {
+  let group = groups.find((g) => g.employer === p.employer);
+  if (!group) {
+    group = { employer: p.employer, items: [] };
+    groups.push(group);
+  }
+  group.items.push(p);
+}
 ---
 
 <Base title="Projects" description="Things I've built — tools, experiments, and work I'm proud of.">
@@ -12,41 +23,46 @@ import { projects } from '../data/site';
     </p>
   </section>
 
-  <section class="grid wrap">
-    {
-      projects.map((p) => (
-        <article class="card reveal">
-          <div class="card__head">
-            <h2 class="card__title">{p.title}</h2>
-            {p.meta && <span class="card__meta">{p.meta}</span>}
-          </div>
+  {
+    groups.map((group) => (
+      <section class="group wrap">
+        <h2 class="group__name reveal">{group.employer}</h2>
+        <div class="grid">
+          {group.items.map((p) => (
+            <article class="card reveal">
+              <div class="card__head">
+                <h3 class="card__title">{p.title}</h3>
+                {p.meta && <span class="card__meta">{p.meta}</span>}
+              </div>
 
-          {p.role && <p class="card__role">{p.role}</p>}
+              {p.role && <p class="card__role">{p.role}</p>}
 
-          <p class="card__desc">{p.description}</p>
+              <p class="card__desc">{p.description}</p>
 
-          <ul class="card__tags">
-            {p.tags.map((t) => (
-              <li>{t}</li>
-            ))}
-          </ul>
+              <ul class="card__tags">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
 
-          <div class="card__links">
-            {p.repo && (
-              <a href={p.repo} class="ulink" target="_blank" rel="noopener">
-                Code ↗
-              </a>
-            )}
-            {p.demo && (
-              <a href={p.demo} class="ulink" target="_blank" rel="noopener">
-                Live ↗
-              </a>
-            )}
-          </div>
-        </article>
-      ))
-    }
-  </section>
+              <div class="card__links">
+                {p.repo && (
+                  <a href={p.repo} class="ulink" target="_blank" rel="noopener">
+                    Code ↗
+                  </a>
+                )}
+                {p.demo && (
+                  <a href={p.demo} class="ulink" target="_blank" rel="noopener">
+                    Live ↗
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))
+  }
 </Base>
 
 <style>
@@ -65,6 +81,20 @@ import { projects } from '../data/site';
     font-size: var(--step-1);
     max-width: 44ch;
     margin-top: 1rem;
+  }
+
+  .group {
+    padding-top: clamp(1.5rem, 5vh, 2.6rem);
+    padding-bottom: clamp(1.5rem, 5vh, 2.6rem);
+  }
+
+  .group__name {
+    font-family: var(--font-mono);
+    font-size: var(--step-1);
+    color: var(--ink-faint);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--line);
   }
 
   .grid {
