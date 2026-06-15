@@ -28,6 +28,8 @@ export const links = [
 
 export type Project = {
   title: string;
+  // Your role on the project. e.g. "Lead developer", "Contributor".
+  role?: string;
   // Short, punchy. One or two sentences.
   description: string;
   // Tech / tags shown as small chips.
@@ -41,38 +43,43 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: 'Ledger',
+    title: 'Bid solicitation',
+    role: 'Lead full-stack',
     description:
-      'A double-entry accounting engine with a plain-text source of truth. Parses, validates, and reports in milliseconds.',
-    tags: ['Rust', 'CLI', 'Parser'],
-    repo: 'https://github.com/yourname/ledger',
+      'Biggest private bid solicitation software in Québec.',
+    tags: ['Rails', 'Haml', 'Heroku'],
+    repo: undefined,
     demo: undefined,
-    meta: '2025',
+    meta: '2025 - Ongoing',
   },
   {
-    title: 'Tideline',
+    title: 'Telephone systems',
+    role: 'Full-stack',
     description:
-      'Self-hosted dashboard that turns scattered API metrics into one calm, glanceable wall of numbers.',
-    tags: ['TypeScript', 'Svelte', 'Self-hosted'],
-    repo: 'https://github.com/yourname/tideline',
-    demo: 'https://demo.example.com',
+      'Admin dashboards for IP telephony systems.',
+    tags: ['ExpressJS', 'React'],
+    repo: undefined,
+    demo: undefined,
     meta: '2024',
   },
   {
-    title: 'Quietnet',
+    title: 'Farm management',
+    role: 'Lead backend',
     description:
-      'An experiment in near-ultrasonic data transfer between laptops — chat with no network, just speakers and a mic.',
-    tags: ['Python', 'DSP', 'Experiment'],
-    repo: 'https://github.com/yourname/quietnet',
-    meta: 'archived',
+      'Farm management systems with integrated B2B marketplace.',
+    tags: ['Django', 'AWS'],
+    repo: undefined,
+    demo: undefined,
+    meta: '2023',
   },
   {
-    title: 'Marginalia',
+    title: 'Events networking',
+    role: 'Backend',
     description:
-      'A reading tool that pulls your Kindle highlights into a searchable, linkable web of notes. Built to think with.',
-    tags: ['Go', 'SQLite', 'htmx'],
-    repo: 'https://github.com/yourname/marginalia',
-    demo: 'https://demo.example.com',
-    meta: 'ongoing',
+      'Events networking platform to connect professionnal and create learning opportunities.',
+    tags: ['Django', 'React', 'AWS'],
+    repo: undefined,
+    demo: undefined,
+    meta: '2020 - 2022',
   },
 ];
