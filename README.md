@@ -35,22 +35,44 @@ That's it. Push to `main` (or run the workflow manually from the **Actions**
 tab) and the site goes live at:
 
 ```
-https://rosalieperron.github.io/brand/
+https://rosalieperron.com
 ```
+
+### Custom domain (rosalieperron.com)
+
+The site is served from the custom domain `rosalieperron.com`. Two things make
+that work:
+
+1. **[`public/CNAME`](public/CNAME)** — committed so GitHub Pages keeps the
+   custom domain set on every deploy. (Without it, a deploy can clear the
+   domain in repo Settings.)
+2. **DNS records at the registrar** — point the domain at GitHub Pages:
+
+   For the apex domain `rosalieperron.com`, create four `A` records:
+
+   ```
+   185.199.108.153
+   185.199.109.153
+   185.199.110.153
+   185.199.111.153
+   ```
+
+   (Optionally also four `AAAA` records: `2606:50c0:8000::153`,
+   `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.)
+
+   For the `www` subdomain, add a `CNAME` record pointing to
+   `rosalieperron.github.io`.
+
+After DNS propagates, go to repo **Settings → Pages**, confirm the custom
+domain is `rosalieperron.com`, and tick **Enforce HTTPS**.
 
 ### About the base path
 
-Because this deploys as a *project* site under `/brand/`, the site is built
-with a base path. This is configured in
-[`astro.config.mjs`](astro.config.mjs) (`site` + `base`), and all internal
-links route through a small [`src/lib/url.ts`](src/lib/url.ts) helper so they
-work both locally (at `/`) and on Pages (at `/brand/`). **Always use
-`url('/path')` for internal links** — never a bare `href="/path"` — or it will
-404 in production.
-
-If you later switch to a **custom domain** or rename the repo to
-`rosalieperron.github.io`, set `base: '/'` (or remove it) in `astro.config.mjs`
-and update `site`. The `url()` helper handles the root case automatically.
+The site builds at the root (`base: '/'` in
+[`astro.config.mjs`](astro.config.mjs)) because a custom domain serves from `/`,
+not a subpath. All internal links route through a small
+[`src/lib/url.ts`](src/lib/url.ts) helper that respects the configured base.
+**Always use `url('/path')` for internal links** — never a bare `href="/path"`.
 
 ## Make it yours
 
@@ -62,8 +84,9 @@ Almost everything lives in **one file**: [`src/data/site.ts`](src/data/site.ts).
 
 Other things to update:
 
-- **Domain / base path** → `astro.config.mjs` (`site` + `base`) — used for
-  canonical/OG URLs and the GitHub Pages subpath. See the deploy section above.
+- **Domain / base path** → `astro.config.mjs` (`site` + `base`) and
+  `public/CNAME` — used for canonical/OG URLs and the custom domain. See the
+  deploy section above.
 - **Contact form delivery** → see below.
 - **Favicon** → [`public/favicon.svg`](public/favicon.svg).
 - **Colors / type** → CSS custom properties at the top of
