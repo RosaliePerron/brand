@@ -89,4 +89,26 @@ export const projects: Project[] = [
     demo: undefined,
     meta: '2020 - 2022',
   },
+  {
+    title: 'Business supplier catalog',
+    employer: 'Libéo',
+    role: 'Full-stack',
+    description:
+      'ERP and public catalog for a major business supplier.',
+    tags: ['Odoo'],
+    repo: undefined,
+    demo: undefined,
+    meta: '2019',
+  },
+  {
+    title: 'Theater website and online ticketing',
+    employer: 'Libéo',
+    role: 'Backend',
+    description:
+      'CMS, scheduling and online ticketing for a major theater venue in Québec city.',
+    tags: ['Wagtail', 'Django'],
+    repo: undefined,
+    demo: undefined,
+    meta: '2018',
+  },
 ];
