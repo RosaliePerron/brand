@@ -11,7 +11,7 @@ export const site = {
   tagline: 'I build careful, fast and efficient software.',
   // A short paragraph for the landing + a longer one is fine too.
   intro:
-    "I develop with the end user in mind, because the best code is the one that just works.",
+    "I’ve been building production software since 2018 across industries that have nothing in common except that the code had to be reliable. That’s the part I take seriously.",
   location: 'Québec, QC',
   email: 'pro@rosalieperron.com',
   // Used for the copyright line + page titles.
